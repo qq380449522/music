@@ -1,32 +1,35 @@
 <template>
-  <div class="home">
-    <van-swipe :autoplay="3000" indicator-color="white">
-      <van-swipe-item v-for="item in recommends" :key="item.id">
-        <a :href="item.linkUrl">
+  <Scroll>
+    <div class="home">
+      <van-swipe :autoplay="3000" indicator-color="white">
+        <van-swipe-item v-for="item in recommends" :key="item.id" @click="click(item.linkUrl)" @touchmove='touchmove'>
           <img :src="item.picUrl" alt>
-        </a>
-      </van-swipe-item>
-    </van-swipe>
-    <div class="play-list">
-      <h5>热门歌单推荐</h5>
-      <div class="play-list-item" v-for="item in disclists" :key="item.dissid">
-        <img class="left" :src="item.imgurl" alt>
-        <div class="info">
-          <h5>{{item.creator.name}}</h5>
-          <p>{{item.dissname}}</p>
+        </van-swipe-item>
+      </van-swipe>
+      <div class="play-list">
+        <h5>热门歌单推荐</h5>
+        <div class="play-list-item" v-for="item in disclists" :key="item.dissid">
+          <img class="left" :src="item.imgurl" alt>
+          <div class="info">
+            <h5>{{item.creator.name}}</h5>
+            <p>{{item.dissname}}</p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </Scroll>
 </template>
 
 <script>
+import Scroll from "@/components/Scroll";
 import { getRecommend, getDiscList } from "@/api/home.js";
 export default {
+  name: "home",
   data() {
     return {
       recommends: [],
-      disclists: []
+      disclists: [],
+      isClick: true
     };
   },
   created() {
@@ -34,6 +37,15 @@ export default {
     this._getDiscList();
   },
   methods: {
+    click(link) {
+      if (this.isClick) {
+        window.location = link
+      }
+      this.isClick = true
+    },
+    touchmove() {
+      this.isClick = false
+    },
     _getRecommend() {
       getRecommend().then(res => {
         if (res.code === 0) {
@@ -48,22 +60,28 @@ export default {
         }
       });
     }
+  },
+  components: {
+    Scroll
   }
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../assets/css/common.scss";
 .home {
-  padding-top: 89px;
+  padding-bottom: 60px;
   .van-swipe {
+    height: 150px;
     img {
       width: 100%;
       display: block;
     }
   }
   .play-list {
+    min-height: 500px;
     > h5 {
+      text-align: center;
       color: $yellow;
       height: 65px;
       line-height: 65px;

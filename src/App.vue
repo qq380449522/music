@@ -1,44 +1,22 @@
 <template>
   <div id="app">
     <Header></Header>
-    <div
-      class="scroll"
-      ref="scroll"
-      @touchstart="touchstart"
-      @touchmove="touchmove"
-      @touchend="touchend"
-      :style="{'transform':'translateY('+height+'px)'}"
-    >
+    <keep-alive include="home">
       <router-view/>
-    </div>
+    </keep-alive>
+    <Player></Player>
+    <Songs></Songs>
   </div>
 </template>
 <script>
 import Header from "./components/Header";
+import Player from "./components/Player";
+import Songs from "./components/Songs";
 export default {
-  data() {
-    return {
-      start: 0,
-      height: 0
-    };
-  },
-  mounted() {},
-  methods: {
-    touchstart(e) {
-      this.start = e.targetTouches[0].clientY;
-    },
-    touchmove(e) {
-      let dis = e.targetTouches[0].clientY - this.start;
-      if (dis > 0 && dis < 150) {
-        this.height = e.targetTouches[0].clientY - this.start;
-      }
-    },
-    touchend() {
-      this.height = 0;
-    }
-  },
   components: {
-    Header
+    Header,
+    Player,
+    Songs
   }
 };
 </script>
@@ -49,13 +27,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background: #222;
+  height: 100%;
 }
 #nav {
   padding: 15px 30px;
-}
-.scroll {
-  height: 100%;
-  transition: 330ms;
 }
 </style>

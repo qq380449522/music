@@ -5,8 +5,8 @@
     <div id="nav">
       <router-link to="/" exact>推荐</router-link>
       <router-link to="/singer">歌手</router-link>
-      <router-link to="/about">排行</router-link>
-      <router-link to="/about">搜索</router-link>
+      <router-link to="/order">排行</router-link>
+      <router-link to="/search">搜索</router-link>
     </div>
   </div>
 </template>
@@ -15,7 +15,7 @@
 export default {};
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '../assets/css/common.scss';
 .header {
   background: #222;
