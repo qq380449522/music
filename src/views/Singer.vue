@@ -10,7 +10,12 @@
           ref="listgroup"
         >
           <h1>{{list.title}}</h1>
-          <div class="singer-item" v-for="item in list.items" :key="item.Fsinger_mid" @click="selectSinger(item.Fsinger_mid)">
+          <div
+            class="singer-item"
+            v-for="item in list.items"
+            :key="item.Fsinger_mid"
+            @click="selectSinger(item.Fsinger_mid)"
+          >
             <img
               class="left"
               :src="'https://y.gtimg.cn/music/photo_new/T001R300x300M000'+item.Fsinger_mid+'.jpg?max_age=2592000'"
@@ -37,6 +42,7 @@
 <script>
 import Scroll from "@/components/Scroll";
 import { getSingerList } from "@/api/singer";
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -114,10 +120,6 @@ export default {
         }
       });
     },
-    selectSinger(id) {
-    },
-
-
     touchstart(index) {
       this.currentIndex = index;
       let dom = this.$refs.listgroup[index];
@@ -125,13 +127,17 @@ export default {
     },
     scroll(pos) {
       this.scrollY = pos.y;
-      for (let i = 0; i<this.listheight.length; i++) {
-        if (this.listheight[i]>Math.abs(this.scrollY)) {
+      for (let i = 0; i < this.listheight.length; i++) {
+        if (this.listheight[i] > Math.abs(this.scrollY)) {
           this.currentIndex = i;
-          return
+          return;
         }
       }
-    }
+    },
+    selectSinger(id) {
+      this.toggleSongBox(true);
+    },
+    ...mapActions(["toggleSongBox"])
   },
   components: {
     Scroll

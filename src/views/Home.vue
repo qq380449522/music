@@ -2,13 +2,23 @@
   <Scroll>
     <div class="home">
       <van-swipe :autoplay="3000" indicator-color="white">
-        <van-swipe-item v-for="item in recommends" :key="item.id" @click="click(item.linkUrl)" @touchmove='touchmove'>
+        <van-swipe-item
+          v-for="item in recommends"
+          :key="item.id"
+          @click="jumpToLink(item.linkUrl)"
+          @touchmove="touchmove"
+        >
           <img :src="item.picUrl" alt>
         </van-swipe-item>
       </van-swipe>
       <div class="play-list">
         <h5>热门歌单推荐</h5>
-        <div class="play-list-item" v-for="item in disclists" :key="item.dissid">
+        <div
+          class="play-list-item"
+          v-for="item in disclists"
+          :key="item.dissid"
+          @click="showSongBox"
+        >
           <img class="left" :src="item.imgurl" alt>
           <div class="info">
             <h5>{{item.creator.name}}</h5>
@@ -23,6 +33,7 @@
 <script>
 import Scroll from "@/components/Scroll";
 import { getRecommend, getDiscList } from "@/api/home.js";
+import { mapActions } from "vuex";
 export default {
   name: "home",
   data() {
@@ -37,15 +48,6 @@ export default {
     this._getDiscList();
   },
   methods: {
-    click(link) {
-      if (this.isClick) {
-        window.location = link
-      }
-      this.isClick = true
-    },
-    touchmove() {
-      this.isClick = false
-    },
     _getRecommend() {
       getRecommend().then(res => {
         if (res.code === 0) {
@@ -59,7 +61,20 @@ export default {
           this.disclists = res.data.list;
         }
       });
-    }
+    },
+    jumpToLink(link) {
+      if (this.isClick) {
+        window.location = link;
+      }
+      this.isClick = true;
+    },
+    touchmove() {
+      this.isClick = false;
+    },
+    showSongBox() {
+      this.toggleSongBox(true);
+    },
+    ...mapActions(["toggleSongBox"])
   },
   components: {
     Scroll

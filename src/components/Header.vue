@@ -5,7 +5,7 @@
     <div id="nav">
       <router-link to="/" exact>推荐</router-link>
       <router-link to="/singer">歌手</router-link>
-      <router-link to="/order">排行</router-link>
+      <router-link to="/rank">排行</router-link>
       <router-link to="/search">搜索</router-link>
     </div>
   </div>

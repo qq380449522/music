@@ -1,5 +1,5 @@
 <template>
-  <div class="songs">
+  <div class="songs" :class="showSongBox?'':'hideSong'">
     <div
       class="top"
       style="background-image: url('http://p.qpic.cn/music_cover/Fe6emiag6IuVbMib3oN6yctTaRvSyia4OdJ40ylLxPs6mzibZvZ5ia2gmnQ/600?n=1')"
@@ -24,18 +24,29 @@
       </div>
       <div class="song-item">
         <p class="name">来不及</p>
-        <p class="info">翁梓铭·伪装</p>
+        <p class="info">翁梓铭·伪装{{}}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
+  computed: {
+    ...mapState({
+      showSongBox: 'showSongBox'
+    })
+  },
+  mounted() {
+  },
   methods: {
     hiddenSongBox() {
-
-    }
+      this.toggleSongBox(false)
+    },
+    ...mapActions([
+      'toggleSongBox'
+    ])
   }
 };
 </script>
@@ -43,8 +54,7 @@ export default {
 <style lang='scss' scoped>
 @import "../assets/css/common.scss";
 .songs {
-  transition: all 1s ease-in-out;
-  transform: translateX(100%);
+  transition: all .2s linear;
   position: fixed;
   left: 0;
   top: 0;
@@ -125,5 +135,8 @@ export default {
       }
     }
   }
+}
+.hideSong {
+  transform: translateX(100%);
 }
 </style>
